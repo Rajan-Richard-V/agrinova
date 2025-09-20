@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government Schemes for Farmers | Kerala</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .central { border-left: 6px solid #10B981; }
+    .kerala { border-left: 6px solid #3B82F6; }
+    .scheme-card { transition: transform 0.2s, box-shadow 0.2s; cursor:pointer; }
+    .scheme-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <!-- Header -->
+  <header class="bg-green-600 text-white p-6 text-center rounded-b-xl shadow">
+    <h1 class="text-3xl md:text-4xl font-bold">Government Schemes for Farmers</h1>
+    <p class="mt-2 text-lg md:text-xl">Central & Kerala State Schemes for Agriculture & Farmer Welfare</p>
+  </header>
+
+  <!-- Filter Buttons -->
+  <div class="flex justify-center gap-3 mt-6 mb-8 flex-wrap">
+    <button class="filter-btn px-5 py-2 rounded-full bg-green-600 text-white font-medium shadow-lg hover:scale-105 transition" data-filter="All">All</button>
+    <button class="filter-btn px-5 py-2 rounded-full bg-gray-200 text-gray-700 font-medium shadow hover:scale-105 transition" data-filter="Central Scheme">Central Schemes</button>
+    <button class="filter-btn px-5 py-2 rounded-full bg-gray-200 text-gray-700 font-medium shadow hover:scale-105 transition" data-filter="Kerala State Scheme">Kerala Schemes</button>
+  </div>
+
+  <!-- Schemes Container -->
+  <div id="schemes-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 mb-12"></div>
+
+  <script>
+    const schemes = [
+      {name:"PM-Kisan Samman Nidhi (PM-KISAN)", type:"Central Scheme", details:"₹6,000 per year direct income support to small and marginal farmers.", icon:"💰", link:"https://pmkisan.gov.in/"},
+      {name:"Pradhan Mantri Fasal Bima Yojana (PMFBY)", type:"Central Scheme", details:"Crop insurance coverage against natural calamities, pests, and diseases.", icon:"🛡️", link:"https://pmfby.gov.in/"},
+      {name:"Kisan Credit Card (KCC)", type:"Central Scheme", details:"Provides timely credit support to farmers for cultivation and allied needs.", icon:"💳", link:"https://www.rbi.org.in/Scripts/BS_ViewKCC.aspx"},
+      {name:"Soil Health Card Scheme", type:"Central Scheme", details:"Soil testing and fertilizer recommendations for better productivity.", icon:"🌱", link:"https://soilhealth.dac.gov.in/"},
+      {name:"Paramparagat Krishi Vikas Yojana (PKVY)", type:"Central Scheme", details:"Supports organic farming and certification.", icon:"🍃", link:"https://pgsindia-ncof.gov.in/"},
+      {name:"e-NAM (National Agriculture Market)", type:"Central Scheme", details:"Online trading platform for agricultural commodities across India.", icon:"📈", link:"https://enam.gov.in/web/"},
+      {name:"Karshaka Pension", type:"Kerala State Scheme", details:"Monthly pension support for registered farmers in Kerala.", icon:"👵", link:"https://www.kerala.gov.in/karshaka-pension"},
+      {name:"Subhiksha Keralam", type:"Kerala State Scheme", details:"Mission to boost food production through community and individual farming.", icon:"🌾", link:"https://www.kerala.gov.in/subhiksha-keralam"},
+      {name:"Krishi Bhavan Subsidy Schemes", type:"Kerala State Scheme", details:"Seed, fertilizer, irrigation and mechanization subsidies via local Krishi Bhavans.", icon:"🏛️", link:"https://www.keralaagriculture.gov.in/krishi-bhavan"}
+    ];
+
+    const container = document.getElementById('schemes-container');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    function renderSchemes(filter) {
+      container.innerHTML = '';
+      const filtered = filter === 'All' ? schemes : schemes.filter(s => s.type === filter);
+      filtered.forEach(s => {
+        const card = document.createElement('div');
+        card.className = `scheme-card ${s.type==="Central Scheme"?"central":"kerala"} bg-white p-5 rounded-2xl shadow-lg flex flex-col gap-3`;
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="text-3xl">${s.icon}</div>
+            <h2 class="font-semibold text-lg md:text-xl">${s.name}</h2>
+          </div>
+          <p class="text-gray-500">${s.type}</p>
+          <p class="text-gray-700">${s.details}</p>
+        `;
+        // Open link in new tab when card clicked
+        card.addEventListener('click', () => window.open(s.link, '_blank'));
+        container.appendChild(card);
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.replace('bg-green-600','bg-gray-200'));
+        buttons.forEach(b => b.classList.replace('text-white','text-gray-700'));
+        btn.classList.replace('bg-gray-200','bg-green-600');
+        btn.classList.replace('text-gray-700','text-white');
+        renderSchemes(btn.dataset.filter);
+      });
+    });
+
+    // Initial render
+    renderSchemes('All');
+  </script>
+
+  <footer class="bg-gray-100 text-gray-700 text-center py-6 mt-12 shadow-inner">
+    © 2025 Farmer Schemes Portal | Designed for Kerala Farmers
+  </footer>
+</body>
+</html>
